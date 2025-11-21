@@ -6,3 +6,7 @@ Correr el servidor, desde la carpeta raíz:
 
 python back/pepestore.py
 
+railway up
+
+https://pepestore-production.up.railway.app
+
