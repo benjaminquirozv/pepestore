@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Demo Hackathon</title>
+    <link rel="stylesheet" href="/front/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1>🛒 TechStore</h1>
+            <div class="carrito-badge" onclick="mostrarVista('carrito')">
+                🛍️ Carrito (<span id="badge-cantidad">0</span>)
+            </div>
+        </div>
+    </header>
+
+    <!-- Vista: Catálogo -->
+    <div id="vista-catalogo" class="vista">
+        <div class="container">
+            <h2>Catálogo de Productos</h2>
+            <div id="productos-grid" class="productos-grid">
+                <!-- Los productos se cargan con JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Vista: Carrito -->
+    <div id="vista-carrito" class="vista oculto">
+        <div class="container">
+            <button class="btn-volver" onclick="mostrarVista('catalogo')">← Volver al catálogo</button>
+            <h2>Mi Carrito</h2>
+            
+            <div id="carrito-vacio" class="mensaje-vacio">
+                <p>Tu carrito está vacío</p>
+                <button class="btn" onclick="mostrarVista('catalogo')">Ir a comprar</button>
+            </div>
+
+            <div id="carrito-contenido" class="oculto">
+                <div id="carrito-items"></div>
+                
+                <div class="carrito-total">
+                    <h3>Total: $<span id="carrito-total">0</span></h3>
+                    <button class="btn btn-primary" onclick="mostrarVista('checkout')">Proceder al pago</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vista: Checkout -->
+    <div id="vista-checkout" class="vista oculto">
+        <div class="container">
+            <button class="btn-volver" onclick="mostrarVista('carrito')">← Volver al carrito</button>
+            <h2>Finalizar Compra</h2>
+            
+            <div class="checkout-container">
+                <div class="checkout-form">
+                    <h3>Datos de contacto</h3>
+                    <form id="form-checkout">
+                        <div class="form-group">
+                            <label>Nombre completo *</label>
+                            <input type="text" id="nombre" required placeholder="Juan Pérez">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" id="email" required placeholder="juan@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" id="telefono" placeholder="+56 9 1234 5678">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-large">
+                            Pagar $<span id="checkout-total">0</span>
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="checkout-resumen">
+                    <h3>Resumen de compra</h3>
+                    <div id="checkout-items"></div>
+                    <hr>
+                    <div class="resumen-total">
+                        <strong>Total:</strong>
+                        <strong>$<span id="resumen-total">0</span></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vista: Confirmación -->
+    <div id="vista-confirmacion" class="vista oculto">
+        <div class="container">
+            <div class="confirmacion-box">
+                <div class="check-icon">✓</div>
+                <h2>¡Pago Exitoso!</h2>
+                <p>Tu orden ha sido procesada correctamente</p>
+                
+                <div class="orden-info">
+                    <p><strong>ID de Orden:</strong> <span id="orden-id">-</span></p>
+                    <p><strong>Total pagado:</strong> $<span id="orden-total">0</span></p>
+                    <p><strong>Email:</strong> <span id="orden-email">-</span></p>
+                </div>
+                
+                <button class="btn btn-primary" onclick="volverInicio()">Volver al inicio</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>TechStore Demo - Hackathon 2024</p>
+    </footer>
+
+    <script src="/front/app.js"></script>
+</body>
+</html>
