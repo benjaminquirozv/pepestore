@@ -2,11 +2,13 @@ Para correr este proyecto:
 
 pip install -r requirements.txt
 
-Correr el servidor, desde la carpeta raíz:
+Para correr el servidor localmente, desde la carpeta raíz ejecutar:
 
 python back/pepestore.py
 
+Para correr el servidor en una URL pública:
+
 railway up
 
-https://pepestore-production.up.railway.app
+URL: https://pepestore-production.up.railway.app
 
