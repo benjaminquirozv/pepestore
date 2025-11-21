@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fintoc import Fintoc
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -7,6 +8,9 @@ from pydantic import BaseModel
 from typing import List
 import uvicorn
 import os
+
+from dotenv import load_dotenv
+load_dotenv()
 
 app = FastAPI()
 
@@ -18,6 +22,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+ordenes = {}
 
 # Productos hardcodeados
 PRODUCTOS = [
@@ -109,16 +115,36 @@ async def eliminar_carrito(producto_id: int):
 
 @app.post("/api/checkout")
 async def checkout(orden: Orden):
+
+        # 1. Generar ID interno de orden
+    order_id = f"ORD-{abs(hash(orden.email + str(orden.total))) % 10_000_000}"
+
+    client = Fintoc(os.environ["FINTOC_SECRET_KEY"])
+
+    checkout = client.checkout_sessions.create(
+        amount=orden.total,
+        currency="clp",
+        customer_email=orden.email
+    )
+
+    session_id = checkout.id
+    session_token = checkout.session_token
+
+    ordenes[order_id] = {
+        "email": orden.email,
+        "total": orden.total,
+        "items": orden.items,
+        "checkout_session_id": session_id,
+        "status": "pending"
+    }
     # Aquí luego integrarás Fintoc
     # Por ahora solo simulamos el proceso
     
-    orden_id = "ORD-" + str(hash(orden.email))[-6:]
-    
+    # 4. Devolver info al frontend (widget)
     return {
-        "orden_id": orden_id,
-        "mensaje": "Orden creada exitosamente",
-        "total": orden.total,
-        "redirect_url": f"/confirmacion?orden_id={orden_id}"
+        "order_id": order_id,
+        "session_token": session_token,
+        "checkout_session_id": session_id
     }
 
 @app.post("/api/limpiar-carrito")

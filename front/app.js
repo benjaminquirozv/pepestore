@@ -242,8 +242,20 @@ async function procesarCheckout(e) {
         // Limpiar carrito
         await fetch(`${API_URL}/api/limpiar-carrito`, { method: 'POST' });
         
-        // Mostrar confirmación
-        mostrarConfirmacion(data, email, carritoData.total);
+        const widget = Fintoc.create({
+            sessionToken: data.session_token,
+            product: "payments",
+            publicKey: "pk_test_4hWfJsjNGx6R8QsrmJXXQ9v29rymwZHihgotMDsRM_8",
+            onSuccess: () => {
+                mostrarConfirmacion(data, email, carritoData.total);
+            },
+            onExit: () => {
+                alert("Pago cancelado.");
+            }
+        });
+
+        // Abrir el widget
+        widget.open();
         
     } catch (error) {
         console.error('Error procesando checkout:', error);
