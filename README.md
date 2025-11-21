@@ -12,3 +12,8 @@ railway up
 
 URL: https://pepestore-production.up.railway.app
 
+Stack utilizado:
+Backend: 
+- FastAPI
+Frontend:
+- JavaScript + HTML
